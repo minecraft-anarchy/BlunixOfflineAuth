@@ -1,0 +1,17 @@
+# Location when players will login or register.
+login-location:
+  x: 0
+  y: 65
+  z: 0
+  pitch: 0
+  yaw: 0
+  world: world
+
+# Time (In seconds) before the login player gets kicked from the server.
+kick-time: 300
+
+# Message that will be sent to login players to explain how to register.
+register-instruction-message: "Type &l/auth register <Password> <ConfirmPassword> &rto register your username in the server."
+
+# Message that will be sent to login players to explain how to login.
+login-instruction-message: "Type &l/auth login <Password> &rto login to the server."

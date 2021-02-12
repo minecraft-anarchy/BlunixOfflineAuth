@@ -17,9 +17,9 @@ public class PlayerChat implements Listener {
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
-		if (!plugin.getLoginPlayers().contains(player))
+		if (!plugin.getLoginPlayers().containsKey(player))
 			return;
 		
-		
+		event.setCancelled(true);
 	}
 }

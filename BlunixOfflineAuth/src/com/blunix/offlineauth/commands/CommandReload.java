@@ -14,7 +14,7 @@ public class CommandReload extends AuthCommand {
 		setName("reload");
 		setHelpMessage("Reloads the plugin's config.");
 		setPermission("offlineauth.reload");
-		setUsageMessage("/oa reload");
+		setUsageMessage("/auth reload");
 		setArgumentLength(1);
 		setUniversalCommand(true);
 	}
@@ -22,6 +22,7 @@ public class CommandReload extends AuthCommand {
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		plugin.reloadConfig();
+		plugin.setLoginLocation();
 		Messager.sendMessage(sender, "&aConfig reloaded.");
 	}
 }

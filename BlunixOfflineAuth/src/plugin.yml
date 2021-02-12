@@ -5,4 +5,4 @@ author: Wmorales01
 
 commands:
   offlineauth:
-    aliases: [oa]
+    aliases: [auth]

@@ -1,11 +1,11 @@
 package com.blunix.offlineauth.files;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 
 import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.util.Messager;
 
 public class DataManager {
 	private OfflineAuth plugin;
@@ -14,46 +14,69 @@ public class DataManager {
 		this.plugin = plugin;
 	}
 
-	public void saveLoginLocation() {
-		if (plugin.getLoginLocation() == null)
-			return;
-
-		Location loginLocation = plugin.getLoginLocation();
-		int x = loginLocation.getBlockX();
-		int y = loginLocation.getBlockY();
-		int z = loginLocation.getBlockZ();
-		float pitch = loginLocation.getPitch();
-		float yaw = loginLocation.getYaw();
-		String worldName = loginLocation.getWorld().getName();
-
-		FileConfiguration data = plugin.getData();
-		String path = "login-location";
-		data.set(path + ".x", x);
-		data.set(path + ".y", y);
-		data.set(path + ".z", z);
-		data.set(path + ".pitch", pitch);
-		data.set(path + ".yaw", yaw);
-		data.set(path + ".world", worldName);
-
+	public void registerPlayer(Player player, String password) {
+		plugin.getData().set("registered-players." + player.getName() + ".password", password);
 		plugin.saveData();
 	}
 
-	public void loadLoginLocation() {
-		if (!plugin.getData().contains("login-location"))
-			return;
+	public void unregisterPlayer(Player player) {
+		plugin.getData().set("registered-players." + player.getName(), null);
+		plugin.saveData();
+		plugin.getUnregisteringPlayers().remove(player);
+	}
 
-		FileConfiguration data = plugin.getData();
-		String path = "login-location";
-		int x = data.getInt(path + ".x");
-		int y = data.getInt(path + ".y");
-		int z = data.getInt(path + ".z");
-		float pitch = (float) data.getDouble(path + ".pitch");
-		float yaw = (float) data.getDouble(path + ".yaw");
-		World world = Bukkit.getWorld(data.getString(path + ".world"));
+	public void setRecoveryEmail(Player player, String email) {
+		plugin.getData().set("registered-players." + player.getName() + ".recovery-email", email);
+		plugin.saveData();
+	}
 
-		Location loginLocation = new Location(world, x, y, z);
-		loginLocation.setPitch(pitch);
-		loginLocation.setYaw(yaw);
-		plugin.setLoginLocation(loginLocation);
+	public boolean isCorrectPassword(Player player, String inputPassword) {
+		return isCorrectPassword(player, player.getName(), inputPassword);
+	}
+
+	public boolean isCorrectPassword(Player player, String playerName, String inputPassword) {
+		if (!inputPassword.equals(getPlayerPassword(playerName))) {
+			Messager.sendMessage(player, "&cIncorrect password.");
+			String ipAddress = player.getAddress().getAddress().getHostAddress();
+			Bukkit.getLogger().info("Incorrect password from: \"" + player.getName() + "\" \"" + ipAddress + "\"");
+
+			return false;
+		}
+
+		return true;
+	}
+
+	public String getPlayerPassword(Player player) {
+		ConfigurationSection section = plugin.getData().getConfigurationSection("registered-players");
+		if (section == null) {
+			Bukkit.getLogger().info("[OfflineAuth] There was an error reading registered-players in data.yml");
+			return null;
+		}
+		return section.getString(player.getName() + ".password");
+	}
+
+	public String getPlayerPassword(String playerName) {
+		ConfigurationSection section = plugin.getData().getConfigurationSection("registered-players");
+		if (section == null) {
+			Bukkit.getLogger().info("[OfflineAuth] There was an error reading registered-players in data.yml");
+			return null;
+		}
+		return section.getString(playerName + ".password");
+	}
+
+	public boolean isRegistered(Player player) {
+		return isRegistered(player.getName());
+	}
+
+	public boolean isRegistered(String playerName) {
+		ConfigurationSection section = plugin.getData().getConfigurationSection("registered-players");
+		if (section == null) {
+			Bukkit.getLogger().info("[OfflineAuth] There was an error reading registered-players in data.yml");
+			return false;
+		}
+		if (!section.contains(playerName))
+			return false;
+
+		return true;
 	}
 }

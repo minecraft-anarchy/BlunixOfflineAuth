@@ -9,7 +9,7 @@ public class CommandHelp extends AuthCommand {
 		setName("help");
 		setHelpMessage("Displays this list.");
 		setPermission("offlineauth.help");
-		setUsageMessage("/oa help");
+		setUsageMessage("/auth help");
 		setArgumentLength(1);
 		setUniversalCommand(true);
 	}
