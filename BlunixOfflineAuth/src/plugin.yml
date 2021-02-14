@@ -1,5 +1,5 @@
 main: com.blunix.offlineauth.OfflineAuth
-name: OfflineAuth
+name: BlunixOfflineAuth
 version: 1.0
 author: Wmorales01
 

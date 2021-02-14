@@ -18,6 +18,7 @@ import com.blunix.offlineauth.commands.CommandCompleter;
 import com.blunix.offlineauth.commands.CommandConfirm;
 import com.blunix.offlineauth.commands.CommandHelp;
 import com.blunix.offlineauth.commands.CommandLogin;
+import com.blunix.offlineauth.commands.CommandRecover;
 import com.blunix.offlineauth.commands.CommandRecoveryEmail;
 import com.blunix.offlineauth.commands.CommandRegister;
 import com.blunix.offlineauth.commands.CommandReload;
@@ -57,6 +58,7 @@ public class OfflineAuth extends JavaPlugin {
 		subcommands.put("confirm", new CommandConfirm(this));
 		subcommands.put("help", new CommandHelp());
 		subcommands.put("login", new CommandLogin(this));
+		subcommands.put("recover", new CommandRecover(this));
 		subcommands.put("recoveryemail", new CommandRecoveryEmail(this));
 		subcommands.put("register", new CommandRegister(this));
 		subcommands.put("reload", new CommandReload(this));

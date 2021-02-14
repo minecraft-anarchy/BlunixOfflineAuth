@@ -39,7 +39,7 @@ public class ConfigManager {
 		return (long) plugin.getConfig().getDouble("kick-time") * 20;
 	}
 
-	public String getText(String path) {
+	public String getString(String path) {
 		return plugin.getConfig().getString(path);
 	}
 }

@@ -63,6 +63,15 @@ public class DataManager {
 		}
 		return section.getString(playerName + ".password");
 	}
+	
+	public String getPlayerRecoveryEmail(String playerName) {
+		ConfigurationSection section = plugin.getData().getConfigurationSection("registered-players");
+		if (section == null) {
+			Bukkit.getLogger().info("[OfflineAuth] There was an error reading registered-players in data.yml");
+			return null;
+		}
+		return section.getString(playerName + ".recovery-email");
+	}
 
 	public boolean isRegistered(Player player) {
 		return isRegistered(player.getName());

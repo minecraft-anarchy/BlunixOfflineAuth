@@ -27,9 +27,9 @@ public class PlayerJoin implements Listener {
 		plugin.getLoginPlayers().put(player, player.getLocation());
 		player.teleport(plugin.getLoginLocation());
 		if (plugin.getDataManager().isRegistered(player))
-			message = config.getText("login-instruction-message");
+			message = config.getString("login-instruction-message");
 		else
-			message = config.getText("register-instruction-message");
+			message = config.getString("register-instruction-message");
 
 		Messager.sendMessage(player, message);
 		startKickTimer(player);
