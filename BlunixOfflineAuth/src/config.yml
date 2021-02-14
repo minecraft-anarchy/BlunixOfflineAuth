@@ -17,10 +17,10 @@ register-instruction-message: "Type &l/auth register <Password> <ConfirmPassword
 login-instruction-message: "Type &l/auth login <Password> &rto login to the server."
 
 # Host that will be used to send emails.
-email-host: mail.gmail.com
+email-host: smpt.gmail.com
 
 # Port used to send emails.
-email-port: 25
+email-port: 465
 
 # Email where recovery emails will be sent from.
 email-sender: xxxxxx@gmail.com

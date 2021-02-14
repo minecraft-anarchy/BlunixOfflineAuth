@@ -77,11 +77,9 @@ public class CommandRecover extends AuthCommand {
 		// Get the session object
 		Properties properties = new Properties();
 		properties.put("mail.smtp.host", host);
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.smtp.starttls.enable", "true");
-		properties.put("mail.smtp.host", "smtp.mailtrap.io");
 		properties.put("mail.smtp.port", port);
-		properties.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
+		properties.put("mail.smtp.ssl.enable", "true");
+		properties.put("mail.smtp.auth", "true");
 
 		Session session = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -99,12 +97,10 @@ public class CommandRecover extends AuthCommand {
 
 			// Send the message
 			Transport.send(message);
-
 			Bukkit.getLogger()
 					.info("A recovery email was sent to " + emailTo + " with temporary password: " + temporaryPassword);
-
-		} catch (MessagingException e) {
-			e.printStackTrace();
+		} catch (MessagingException mex) {
+			mex.printStackTrace();
 		}
 
 		// ConfigManager config = new ConfigManager(plugin);
