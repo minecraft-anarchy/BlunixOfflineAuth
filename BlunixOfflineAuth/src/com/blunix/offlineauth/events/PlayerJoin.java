@@ -7,15 +7,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 import com.blunix.offlineauth.util.ConfigManager;
 import com.blunix.offlineauth.util.Messager;
 
 public class PlayerJoin implements Listener {
-	private OfflineAuth plugin;
+	private BlunixOfflineAuth plugin;
 	private ConfigManager config;
 
-	public PlayerJoin(OfflineAuth plugin) {
+	public PlayerJoin(BlunixOfflineAuth plugin) {
 		this.plugin = plugin;
 		this.config = plugin.getConfigManager();
 	}
@@ -23,24 +23,23 @@ public class PlayerJoin implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		String message = "";
-		plugin.getLoginPlayers().put(player, player.getLocation());
+		if (!plugin.getDataManager().isRegistered(player))
+			return;
+		if (!plugin.getLoginPlayers().containsKey(player.getUniqueId()))
+			plugin.getLoginPlayers().put(player.getUniqueId(), player.getLocation());
 		player.teleport(plugin.getLoginLocation());
-		if (plugin.getDataManager().isRegistered(player))
-			message = config.getString("login-instruction-message");
-		else
-			message = config.getString("register-instruction-message");
-
-		Messager.sendMessage(player, message);
+		Messager.sendMessage(player, config.getString("login-instruction-message"));
 		startKickTimer(player);
 	}
 
 	private void startKickTimer(Player player) {
+		long kickTime = config.getKickTime();
 		Bukkit.getScheduler().runTaskLater(plugin, () -> {
-			if (!plugin.getLoginPlayers().containsKey(player))
+			if (!plugin.getLoginPlayers().containsKey(player.getUniqueId()))
 				return;
 
-			player.kickPlayer(ChatColor.RED + "Login time exceeded.");
-		}, config.getKickTime());
+			player.kickPlayer(ChatColor.RED + "You did not use /auth within " + kickTime / 20
+					+ " seconds. Please re-login and authenticate in time.");
+		}, kickTime);
 	}
 }

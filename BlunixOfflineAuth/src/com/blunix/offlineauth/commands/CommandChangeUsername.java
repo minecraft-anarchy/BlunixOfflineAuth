@@ -9,15 +9,15 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 import com.blunix.offlineauth.files.DataManager;
 import com.blunix.offlineauth.util.Messager;
-import com.google.common.base.Charsets;
+import com.blunix.offlineauth.util.UUIDUtil;
 
 public class CommandChangeUsername extends AuthCommand {
 	private DataManager dataManager;
 
-	public CommandChangeUsername(OfflineAuth plugin) {
+	public CommandChangeUsername(BlunixOfflineAuth plugin) {
 		this.dataManager = plugin.getDataManager();
 
 		setName("changeusername");
@@ -32,26 +32,26 @@ public class CommandChangeUsername extends AuthCommand {
 	public void execute(CommandSender sender, String[] args) {
 		Player player = (Player) sender;
 		String oldUsername = args[1];
+		UUID oldUUID = UUIDUtil.getOfflineUUID(oldUsername);
 		String password = args[2];
 		if (oldUsername.equals(player.getName())) {
-			Messager.sendMessage(player, "&cYou can't transfer data from your current username");
+			Messager.sendMessage(player, "&cYou can't transfer data from your current username.");
 			return;
 		}
-		if (!dataManager.isRegistered(oldUsername)) {
+		if (!dataManager.isRegistered(UUIDUtil.getOfflineUUID(oldUsername))) {
 			Messager.sendMessage(player, "&c&l" + oldUsername + " &cisn't registered in the server.");
 			return;
 		}
-		if (!dataManager.isCorrectPassword(player, oldUsername, password))
+		if (!dataManager.isCorrectPassword(player, oldUUID, password))
 			return;
 		
-		transferPlayerData(oldUsername, player.getName());
+		transferPlayerData(oldUUID, player.getName());
 		player.kickPlayer(ChatColor.GREEN + "Your data has been successfully transfered!");
 	}
 
-	private void transferPlayerData(String oldUsername, String newUsername) {
-		UUID oldUUID = UUID.nameUUIDFromBytes(("OfflinePlayer:" + oldUsername).getBytes(Charsets.UTF_8));
-		UUID newUUID = UUID.nameUUIDFromBytes(("OfflinePlayer:" + newUsername).getBytes(Charsets.UTF_8));
-
+	private void transferPlayerData(UUID oldUUID, String newUsername) {
+		UUID newUUID = UUIDUtil.getOfflineUUID(newUsername);
+		
 		for (World world : Bukkit.getWorlds()) {
 			File oldData = new File(world.getWorldFolder() + "/playerdata/" + oldUUID.toString() + ".dat");
 			File newData = new File(world.getWorldFolder() + "/playerdata/" + newUUID.toString() + ".dat");

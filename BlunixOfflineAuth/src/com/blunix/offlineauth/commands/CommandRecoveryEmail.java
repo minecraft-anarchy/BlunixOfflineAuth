@@ -6,15 +6,15 @@ import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 import com.blunix.offlineauth.files.DataManager;
 import com.blunix.offlineauth.util.Messager;
 
 public class CommandRecoveryEmail extends AuthCommand {
-	private OfflineAuth plugin;
+	private BlunixOfflineAuth plugin;
 	private DataManager dataManager;
 
-	public CommandRecoveryEmail(OfflineAuth plugin) {
+	public CommandRecoveryEmail(BlunixOfflineAuth plugin) {
 		this.plugin = plugin;
 		this.dataManager = plugin.getDataManager();
 
@@ -30,7 +30,7 @@ public class CommandRecoveryEmail extends AuthCommand {
 	public void execute(CommandSender sender, String[] args) {
 		Player player = (Player) sender;
 		String email = args[1];
-		if (plugin.getLoginPlayers().containsKey(player)) {
+		if (plugin.getLoginPlayers().containsKey(player.getUniqueId())) {
 			Messager.sendMessage(player, "&cYou need to login to the server before setting your recovery e-mail.");
 			return;
 		}

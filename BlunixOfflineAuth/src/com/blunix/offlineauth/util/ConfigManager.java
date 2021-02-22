@@ -4,12 +4,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 
 public class ConfigManager {
-	private OfflineAuth plugin;
+	private BlunixOfflineAuth plugin;
 
-	public ConfigManager(OfflineAuth plugin) {
+	public ConfigManager(BlunixOfflineAuth plugin) {
 		this.plugin = plugin;
 	}
 

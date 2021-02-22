@@ -15,16 +15,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 import com.blunix.offlineauth.files.DataManager;
 import com.blunix.offlineauth.util.ConfigManager;
 import com.blunix.offlineauth.util.Messager;
 
 public class CommandRecover extends AuthCommand {
-	private OfflineAuth plugin;
+	private BlunixOfflineAuth plugin;
 	private DataManager dataManager;
 
-	public CommandRecover(OfflineAuth plugin) {
+	public CommandRecover(BlunixOfflineAuth plugin) {
 		this.plugin = plugin;
 		this.dataManager = plugin.getDataManager();
 
@@ -41,11 +41,11 @@ public class CommandRecover extends AuthCommand {
 	public void execute(CommandSender sender, String[] args) {
 		Player player = (Player) sender;
 		String username = args[1];
-		if (!plugin.getLoginPlayers().containsKey(player)) {
+		if (!plugin.getLoginPlayers().containsKey(player.getUniqueId())) {
 			Messager.sendMessage(player, "&cYou are already logged in to the server.");
 			return;
 		}
-		if (!dataManager.isRegistered(username)) {
+		if (!dataManager.isRegistered(player.getUniqueId())) {
 			Messager.sendMessage(player, "&c&l" + username + " &cisn't registered in the server yet.");
 			return;
 		}

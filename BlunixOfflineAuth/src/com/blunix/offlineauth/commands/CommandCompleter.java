@@ -7,12 +7,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 
 public class CommandCompleter implements TabCompleter {
-	private OfflineAuth plugin;
+	private BlunixOfflineAuth plugin;
 
-	public CommandCompleter(OfflineAuth plugin) {
+	public CommandCompleter(BlunixOfflineAuth plugin) {
 		this.plugin = plugin;
 	}
 

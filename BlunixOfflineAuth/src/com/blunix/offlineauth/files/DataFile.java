@@ -9,14 +9,14 @@ import java.util.logging.Level;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 
 public class DataFile {
-	private OfflineAuth plugin;
+	private BlunixOfflineAuth plugin;
 	private FileConfiguration dataConfig = null;
 	private File configFile = null;
 
-	public DataFile(OfflineAuth plugin) {
+	public DataFile(BlunixOfflineAuth plugin) {
 		this.plugin = plugin;
 		saveDefaultConfig();
 	}

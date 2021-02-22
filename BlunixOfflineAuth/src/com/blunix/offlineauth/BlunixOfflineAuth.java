@@ -2,8 +2,10 @@ package com.blunix.offlineauth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,27 +20,26 @@ import com.blunix.offlineauth.commands.CommandCompleter;
 import com.blunix.offlineauth.commands.CommandConfirm;
 import com.blunix.offlineauth.commands.CommandHelp;
 import com.blunix.offlineauth.commands.CommandLogin;
-import com.blunix.offlineauth.commands.CommandRecover;
 import com.blunix.offlineauth.commands.CommandRecoveryEmail;
 import com.blunix.offlineauth.commands.CommandRegister;
 import com.blunix.offlineauth.commands.CommandReload;
 import com.blunix.offlineauth.commands.CommandRunner;
 import com.blunix.offlineauth.commands.CommandUnregister;
+import com.blunix.offlineauth.events.LogListener;
 import com.blunix.offlineauth.events.PlayerChat;
-import com.blunix.offlineauth.events.PlayerInteract;
 import com.blunix.offlineauth.events.PlayerJoin;
-import com.blunix.offlineauth.events.PlayerMove;
+import com.blunix.offlineauth.events.PlayerRespawn;
 import com.blunix.offlineauth.files.DataFile;
 import com.blunix.offlineauth.files.DataManager;
 import com.blunix.offlineauth.util.ConfigManager;
 
-public class OfflineAuth extends JavaPlugin {
+public class BlunixOfflineAuth extends JavaPlugin {
 	private DataFile data;
 	private DataManager dataManager;
 	private ConfigManager configManager;
 
-	private Map<String, AuthCommand> subcommands = new HashMap<String, AuthCommand>();
-	private Map<Player, Location> loginPlayers = new HashMap<Player, Location>();
+	private Map<String, AuthCommand> subcommands = new LinkedHashMap<String, AuthCommand>();
+	private Map<UUID, Location> loginPlayers = new HashMap<UUID, Location>();
 
 	private List<Player> unregisteringPlayers = new ArrayList<Player>();
 
@@ -53,22 +54,24 @@ public class OfflineAuth extends JavaPlugin {
 
 		getCommand("auth").setExecutor(new CommandRunner(this));
 		getCommand("auth").setTabCompleter(new CommandCompleter(this));
+		subcommands.put("help", new CommandHelp());
+		subcommands.put("register", new CommandRegister(this));
+		subcommands.put("login", new CommandLogin(this));
+		subcommands.put("unregister", new CommandUnregister(this));
 		subcommands.put("changepassword", new CommandChangePassword(this));
 		subcommands.put("changeusername", new CommandChangeUsername(this));
 		subcommands.put("confirm", new CommandConfirm(this));
-		subcommands.put("help", new CommandHelp());
-		subcommands.put("login", new CommandLogin(this));
-		subcommands.put("recover", new CommandRecover(this));
+//		subcommands.put("recover", new CommandRecover(this));
 		subcommands.put("recoveryemail", new CommandRecoveryEmail(this));
-		subcommands.put("register", new CommandRegister(this));
 		subcommands.put("reload", new CommandReload(this));
-		subcommands.put("unregister", new CommandUnregister(this));	
 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PlayerJoin(this), this);
 		pm.registerEvents(new PlayerChat(this), this);
-		pm.registerEvents(new PlayerMove(this), this);
-		pm.registerEvents(new PlayerInteract(this), this);
+		pm.registerEvents(new PlayerRespawn(this), this);
+
+		LogListener logListener = new LogListener();
+		logListener.registerFilter();
 
 		setLoginLocation();
 	}
@@ -90,7 +93,7 @@ public class OfflineAuth extends JavaPlugin {
 		return subcommands;
 	}
 
-	public Map<Player, Location> getLoginPlayers() {
+	public Map<UUID, Location> getLoginPlayers() {
 		return loginPlayers;
 	}
 

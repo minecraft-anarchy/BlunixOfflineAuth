@@ -2,13 +2,13 @@ package com.blunix.offlineauth.commands;
 
 import org.bukkit.command.CommandSender;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 import com.blunix.offlineauth.util.Messager;
 
 public class CommandReload extends AuthCommand {
-	private OfflineAuth plugin;
+	private BlunixOfflineAuth plugin;
 
-	public CommandReload(OfflineAuth plugin) {
+	public CommandReload(BlunixOfflineAuth plugin) {
 		this.plugin = plugin;
 
 		setName("reload");

@@ -1,4 +1,4 @@
-main: com.blunix.offlineauth.OfflineAuth
+main: com.blunix.offlineauth.BlunixOfflineAuth
 name: BlunixOfflineAuth
 version: 1.0
 author: Wmorales01

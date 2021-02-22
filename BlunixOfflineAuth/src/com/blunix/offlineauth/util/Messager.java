@@ -5,7 +5,7 @@ import java.util.Iterator;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 import com.blunix.offlineauth.commands.AuthCommand;
 
 public class Messager {
@@ -15,7 +15,7 @@ public class Messager {
 	}
 
 	public static void sendHelpMessage(CommandSender sender) {
-		OfflineAuth plugin = OfflineAuth.getPlugin(OfflineAuth.class);
+		BlunixOfflineAuth plugin = BlunixOfflineAuth.getPlugin(BlunixOfflineAuth.class);
 		String finalMessage = "&lCommands\n";
 
 		Iterator<AuthCommand> iterator = plugin.getSubcommands().values().iterator();

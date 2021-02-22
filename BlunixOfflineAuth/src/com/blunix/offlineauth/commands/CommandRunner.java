@@ -5,13 +5,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 import com.blunix.offlineauth.util.Messager;
 
 public class CommandRunner implements CommandExecutor {
-	private OfflineAuth plugin;
+	private BlunixOfflineAuth plugin;
 
-	public CommandRunner(OfflineAuth plugin) {
+	public CommandRunner(BlunixOfflineAuth plugin) {
 		this.plugin = plugin;
 	}
 
@@ -24,7 +24,7 @@ public class CommandRunner implements CommandExecutor {
 			return true;
 		}
 		if (!plugin.getSubcommands().containsKey(args[0].toLowerCase())) {
-			Messager.sendMessage(sender, "&cUnknown command. Type &l/oa help &cto see the full command list.");
+			Messager.sendMessage(sender, "&cUnknown command. Type &l/auth help &cto see the full command list.");
 			return true;
 		}
 

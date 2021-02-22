@@ -1,18 +1,17 @@
 package com.blunix.offlineauth.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 import com.blunix.offlineauth.files.DataManager;
 import com.blunix.offlineauth.util.Messager;
 
 public class CommandConfirm extends AuthCommand {
-	private OfflineAuth plugin;
+	private BlunixOfflineAuth plugin;
 	private DataManager dataManager;
 
-	public CommandConfirm(OfflineAuth plugin) {
+	public CommandConfirm(BlunixOfflineAuth plugin) {
 		this.plugin = plugin;
 		this.dataManager = plugin.getDataManager();
 
@@ -33,6 +32,6 @@ public class CommandConfirm extends AuthCommand {
 			return;
 		}
 		dataManager.unregisterPlayer(player);
-		player.kickPlayer(ChatColor.GREEN + "Username successfully unregistered.");
+		Messager.sendMessage(player, "&aUsername successfully unregistered.");
 	}
 }

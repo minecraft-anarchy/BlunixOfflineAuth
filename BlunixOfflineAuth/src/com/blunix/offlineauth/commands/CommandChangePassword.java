@@ -4,15 +4,15 @@ import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 import com.blunix.offlineauth.files.DataManager;
 import com.blunix.offlineauth.util.Messager;
 
 public class CommandChangePassword extends AuthCommand {
-	private OfflineAuth plugin;
+	private BlunixOfflineAuth plugin;
 	private DataManager dataManager;
 
-	public CommandChangePassword(OfflineAuth plugin) {
+	public CommandChangePassword(BlunixOfflineAuth plugin) {
 		this.plugin = plugin;
 		this.dataManager = plugin.getDataManager();
 
@@ -29,7 +29,7 @@ public class CommandChangePassword extends AuthCommand {
 		Player player = (Player) sender;
 		String oldPassword = args[1];
 		String newPassword = args[2];
-		if (plugin.getLoginPlayers().containsKey(player)) {
+		if (plugin.getLoginPlayers().containsKey(player.getUniqueId())) {
 			Messager.sendMessage(player, "&cYou need to login before you can change your password.");
 			return;
 		}
@@ -39,6 +39,10 @@ public class CommandChangePassword extends AuthCommand {
 		}
 		if (!dataManager.isCorrectPassword(player, oldPassword))
 			return;
+		if (newPassword.length() < 6) {
+			Messager.sendMessage(player, "&cYou must enter a password with at least 6 characters.");
+			return;
+		}
 		if (oldPassword.equals(newPassword)) {
 			Messager.sendMessage(player, "&cYou can't set the same password again.");
 			return;

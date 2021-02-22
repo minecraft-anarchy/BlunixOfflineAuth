@@ -7,6 +7,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="E:/Users/WILLIAM2/Downloads/Video/Spigot Programming/spigot-1.16.4.jar"/>
-	<classpathentry kind="lib" path="E:/Users/WILLIAM2/Downloads/Video/Spigot Programming/javax.mail-1.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

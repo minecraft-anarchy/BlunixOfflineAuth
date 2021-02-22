@@ -4,15 +4,15 @@ import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.blunix.offlineauth.OfflineAuth;
+import com.blunix.offlineauth.BlunixOfflineAuth;
 import com.blunix.offlineauth.files.DataManager;
 import com.blunix.offlineauth.util.Messager;
 
 public class CommandLogin extends AuthCommand {
-	private OfflineAuth plugin;
+	private BlunixOfflineAuth plugin;
 	private DataManager dataManager;
 
-	public CommandLogin(OfflineAuth plugin) {
+	public CommandLogin(BlunixOfflineAuth plugin) {
 		this.plugin = plugin;
 		this.dataManager = plugin.getDataManager();
 
@@ -28,7 +28,7 @@ public class CommandLogin extends AuthCommand {
 	public void execute(CommandSender sender, String[] args) {
 		Player player = (Player) sender;
 		String password = args[1];
-		if (!plugin.getLoginPlayers().containsKey(player)) {
+		if (!plugin.getLoginPlayers().containsKey(player.getUniqueId())) {
 			Messager.sendMessage(player, "&cYou are already logged in to the server.");
 			return;
 		}
@@ -39,8 +39,8 @@ public class CommandLogin extends AuthCommand {
 		if (!dataManager.isCorrectPassword(player, password))
 			return;
 		
-		player.teleport(plugin.getLoginPlayers().get(player));
-		plugin.getLoginPlayers().remove(player);
+		player.teleport(plugin.getLoginPlayers().get(player.getUniqueId()));
+		plugin.getLoginPlayers().remove(player.getUniqueId());
 		
 		Messager.sendMessage(player, "&aYou successfully logged in to the server.");
 		player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);

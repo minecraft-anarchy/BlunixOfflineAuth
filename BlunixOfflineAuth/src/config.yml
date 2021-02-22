@@ -29,7 +29,7 @@ email-sender: xxxxxx@gmail.com
 email-sender-password: 123456
 
 # Recovery email's subject.
-email-subject: Minecraft Anarchy Password Recovery
+email-subject: "Minecraft Anarchy Password Recovery"
 
 # Recovery email's content, use \n to skip a line, {PASSWORD} is the generated temporary password.
-email-content: This is your temporary password for the Minecraft Anarchy login system: {PASSWORD}
+email-content: "This is your temporary password for the Minecraft Anarchy login system: {PASSWORD}"
